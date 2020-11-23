@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>To-DO-List Using JQuery</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+   
+    <!-- Bootstrap core CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Material Design Bootstrap -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css"
+      rel="stylesheet"
+    />
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Start your project here-->
+    <section class="back_image">
+      <div class="todo">
+        <h3 class="text-center p-3">
+          To Do List
+          <i class="fas fa-list"></i>
+        </h3>
+        <form id="todo_form">
+          <div class="form-group p-3 input_background">
+            <input
+              type="text"
+              placeholder="Add Todo"
+              class="input_field"
+              id="todo_input"
+              required
+            />
+            <button class="btn btn-success" type="submit">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </form>
+        <!-- todos-->
+        <ul class="m-0 p-0" id="todoItems"></ul>
+      </div>
+    </section>
+
+    <!-- End your project here-->
+    <!-- jQuery -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+      <!-- Your custom scripts (optional) -->
+    <script type="text/javascript">
+      const arr = [];
+      $("#todo_form").submit( function (e) {
+        e.preventDefault();
+        let data = {
+          todo: $("#todo_input").val(),
+        };
+        arr.push(data);
+        loadTodos(arr);
+      });
+
+      //  fetching items dynamically
+      function loadTodos(arr) {
+        let todoHtml = ``;
+        $.each(arr, function (index, item) { 
+            todoHtml += `
+            <li class="todo_lists p-3 m-1">
+                <h6 style="font-size: 24px; font-family: cursive;">${item.todo}</h6>
+                <button class="btn btn-danger delete" id="${index}" >
+                    <i class="fas fa-trash"></i>
+                </button>
+            </li>
+            `; 
+        });
+        $("#todoItems").html(todoHtml);
+        $("#todo_form").trigger("reset");
+
+        // deleting todo items
+
+        $(".delete").click(function (e) {
+            arr.splice(e.target.id,1);
+            loadTodos(arr);
+          })
+      }
+    </script>
+  </body>
+</html>
